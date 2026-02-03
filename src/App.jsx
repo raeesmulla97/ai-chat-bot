@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import ChatBotStart from "./Components/ChatBotStart";
 import ChatBotApp from "./Components/ChatBotApp";
 import { v4 as uuidv4 } from "uuid";
+import ErrorPage from "./Components/ErrorPage";
 
 const App = () => {
   const [isChatting, setIsChatting] = useState(false);
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const storedChats = JSON.parse(localStorage.getItem("chats")) || [];
@@ -55,19 +57,23 @@ const App = () => {
 
   return (
     <div className="container">
-      {isChatting ? (
-        <ChatBotApp
-          onGoBack={handleGoBack}
-          chats={chats}
-          setChats={setChats}
-          activeChat={activeChat}
-          setActiveChat={setActiveChat}
-          onNewChat={createNewChat}
-        />
-      ) : (
-        <ChatBotStart onStartChat={handleStartChat} />
-      )}
-    </div>
+  {hasError ? (
+    <ErrorPage onBack={() => setHasError(false)} />
+  ) : isChatting ? (
+    <ChatBotApp
+      onGoBack={handleGoBack}
+      chats={chats}
+      setChats={setChats}
+      activeChat={activeChat}
+      setActiveChat={setActiveChat}
+      onNewChat={createNewChat}
+      onError={() => setHasError(true)}
+    />
+  ) : (
+    <ChatBotStart onStartChat={handleStartChat} />
+  )}
+</div>
+
   );
 };
 

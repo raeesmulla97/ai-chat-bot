@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import "./ChatBotApp.css";
+import "./styles/ChatBotApp.css";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import ReactMarkdown from "react-markdown";
 
@@ -10,6 +10,7 @@ const ChatBotApp = ({
   activeChat,
   setActiveChat,
   onNewChat,
+  onError,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState(chats[0]?.messages || []);
@@ -61,7 +62,7 @@ const ChatBotApp = ({
   };
 
   const sendMessage = async () => {
-    if (inputValue.trim === "") return;
+    if (inputValue.trim() === "") return;
 
     const newMessage = {
       type: "prompt",
@@ -90,46 +91,69 @@ const ChatBotApp = ({
       localStorage.setItem("chats", JSON.stringify(updatedChats));
       setIsTyping(true);
 
-      const response = await fetch("https://api.openai.com/v1/responses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4.1",
-          max_output_tokens: 500,
-          input: [
-            {
-              role: "user",
-              content: [
-                {
-                  type: "input_text",
-                  text: inputValue,
-                },
-              ],
-            },
-          ],
-        }),
-      });
+      try {
+        const response = await fetch("https://api.openai.com/v1/responses", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-4.1",
+            max_output_tokens: 500,
+            input: [
+              {
+                role: "user",
+                content: [
+                  {
+                    type: "input_text",
+                    text: inputValue,
+                  },
+                ],
+              },
+            ],
+          }),
+        });
 
-      const data = await response.json();
-      const chatResponse = data.output[0].content[0].text.trim();
+        if (!response.ok) {
+          throw new Error("AI request failed");
+        }
 
-      const newResponse = {
-        type: "response",
-        text: chatResponse,
-        timestamp: new Date().toLocaleTimeString(),
-      };
+        const data = await response.json();
+        const chatResponse =
+          data?.output?.[0]?.content?.[0]?.text?.trim() ||
+          "Sorry, I couldn’t reply.";
 
-      const updatedMessagesWithResponse = [...updatedMessages, newResponse];
-      setMessages(updatedMessagesWithResponse);
-      localStorage.setItem(
-        activeChat,
-        JSON.stringify(updatedMessagesWithResponse)
-      );
-      setIsTyping(false);
+        const newResponse = {
+          type: "response",
+          text: chatResponse,
+          timestamp: new Date().toLocaleTimeString(),
+        };
 
+        const updatedMessagesWithResponse = [...updatedMessages, newResponse];
+
+        setMessages(updatedMessagesWithResponse);
+        localStorage.setItem(
+          activeChat,
+          JSON.stringify(updatedMessagesWithResponse),
+        );
+
+        setIsTyping(false);
+      } catch (error) {
+        console.error(error);
+        onError();
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            type: "response",
+            text: "⚠️ Something went wrong. Please try again.",
+            timestamp: new Date().toLocaleTimeString(),
+          },
+        ]);
+
+        setIsTyping(false);
+      }
       const updatedChatsWithResponse = chats.map((chat) => {
         if (chat.id === activeChat) {
           return { ...chat, messages: updatedMessagesWithResponse };
