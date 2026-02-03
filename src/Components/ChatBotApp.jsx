@@ -221,7 +221,7 @@ const ChatBotApp = ({
       {/* Chat Window Section */}
       <div className="chat-window">
         <div className="chat-title">
-          <h3>Chat with AI</h3>
+          <h3>Ask AI Buddy</h3>
           <i className="bx bx-menu" onClick={() => setShowChatList(true)}></i>
           <i className="bx bx-arrow-right arrow" onClick={onGoBack}></i>
         </div>
