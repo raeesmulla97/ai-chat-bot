@@ -1,69 +1,87 @@
+# 🤖 AskAIBuddy -- AI Chat Application
 
-# Project Title
+AskAIBuddy is a React-based AI chat application built with Vite and the
+OpenAI Responses API.\
+It provides real-time conversational AI with multiple chat sessions,
+emoji support, and a responsive interface that works smoothly across
+desktop and mobile devices.
 
-A brief description of what this project does and who it's for
+Live Demo:\
+👉 https://askaibuddy.netlify.app/
 
-# 🤖 AI Chatbot – React + ChatGPT API
+------------------------------------------------------------------------
 
-An AI-powered conversational application built with React and the ChatGPT API, designed to deliver natural, real-time interactions through a clean and user-friendly interface.
+## ✨ Features
 
-This project showcases practical AI integration, modern JavaScript development, and thoughtful user experience design.
+-   Real-time AI conversations\
+-   Multiple chat sessions (create, switch, delete)\
+-   Emoji picker for expressive messaging\
+-   Chat history stored in browser localStorage\
+-   Fully responsive UI (mobile, tablet, desktop)
 
----
-
-## 🌟 Project Highlights
-
-✅ Real-time AI-powered conversations  
-✅ Minimal and elegant landing screen for quick chat initiation  
-✅ Clean chat interface with clear sender/receiver separation  
-✅ Typing indicator for realistic conversational flow  
-✅ Emoji picker for expressive communication  
-✅ Multiple chat sessions with timestamped history  
-✅ Create, switch, and delete conversations easily  
-✅ Local storage integration to preserve chat history  
-✅ Fully responsive across desktop, tablet, and mobile  
-
-Built with a focus on usability, performance, and real-world application flow.
-
----
-
-## 💡 What Makes This Project Stand Out
-
-- Designed to simulate human-like conversations using AI  
-- Implements real-time message handling with smooth UI feedback  
-- Stores conversation history locally for uninterrupted user experience  
-- Supports multiple chats with organized timestamps  
-- Enhances interaction through emojis and typing indicators  
-- Responsive layout ensures consistent experience across devices  
-
-This application demonstrates end-to-end AI application development, from UI design to API integration and state management.
-
----
-
-## 🧠 How It Works
-
-- Users start a conversation from a minimal landing screen  
-- Messages appear on the right, AI responses on the left  
-- Typing indicator shows when the AI is generating replies  
-- Emoji picker adds personality to conversations  
-- Chat list enables switching between sessions  
-- All chats are saved using browser localStorage, allowing users to resume conversations anytime  
-
----
+------------------------------------------------------------------------
 
 ## 🛠 Tech Stack
 
-- React JS  
-- Vite  
-- JavaScript (ES6+)  
-- ChatGPT API  
-- Local Storage  
+-   React\
+-   Vite\
+-   JavaScript (ES6+)\
+-   OpenAI Responses API (gpt-4.1)\
+-   LocalStorage\
+-   Netlify
 
----
+------------------------------------------------------------------------
 
-## 📦 Getting Started
+## 📱 Mobile Responsive
+
+AskAIBuddy is designed to work on all screen sizes:
+
+-   Mobile-friendly layout\
+-   Touch-optimized controls\
+-   Responsive typography and buttons\
+-   Smooth scrolling chat experience
+
+------------------------------------------------------------------------
+
+## 🚀 Live Demo
+
+https://askaibuddy.netlify.app/
+
+------------------------------------------------------------------------
+
+## 📦 Local Setup
 
 Clone the repository:
 
-```bash
+``` bash
 git clone https://github.com/raeesmulla97/ai-chat-bot.git
+cd ai-chat-bot
+```
+
+Install dependencies:
+
+``` bash
+npm install
+```
+
+Create a `.env` file in the root directory:
+
+``` env
+VITE_OPENAI_API_KEY=your_openai_api_key_here
+```
+
+Start the development server:
+
+``` bash
+npm run dev
+```
+
+Open:
+
+    http://localhost:5173
+
+------------------------------------------------------------------------
+
+## 👨‍💻 Author
+
+Raees
